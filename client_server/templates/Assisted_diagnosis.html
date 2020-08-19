@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>辅助诊疗</title>
+  <link rel="stylesheet" href="../static/layui/css/layui.css">
+  <style>
+      .layui-my-nav-item-float {
+        float: right;
+      }
+      
+      .layui-my-nav-container {
+        position: absolute;
+        width: inherit;
+      }
+
+      .layui-my-nav-user-name {
+      position: relative;
+      /* display: inline-block; */
+      *display: inline;
+      *zoom: 1;
+      vertical-align: middle;
+      line-height: 60px;
+      padding: 0 20px;
+      margin-left: 10px;
+      float: right;
+      color: rgba(255,255,255,.7);
+    }
+
+    .layui-my-nav-sys-name,.layui-my-nav-logo {
+      position: relative;
+      /* display: inline-block; */
+      *display: inline;
+      *zoom: 1;
+      vertical-align: middle;
+      line-height: 60px;
+      margin: 5px, 0;
+      float: left;
+      padding-left: 10px
+    }
+
+    .layui-my-body {
+        position: absolute;
+        top: 60px;
+        /* bottom: 44px; */
+        z-index: 998;
+        width: 100%;
+        overflow-y: auto;
+        box-sizing: border-box;
+        overflow: hidden;
+
+        /* 以下待删除 */
+        /* background-color:azure; */
+        /* height: 500px; */
+    }
+
+    .layui-my-box {
+        margin-top: 20px;
+        padding-bottom: 10px;
+    }
+
+    .layui-my-inline {
+        margin-bottom: 0px;
+    }
+
+    #layui-my-age-input {
+        width: 135px;
+    }
+
+    .layui-my-label-width {
+        width: auto;
+    }
+
+    .b {
+        background-color: darkorange;
+    }
+
+    .b1 {
+        background-color:floralwhite;
+    }
+
+  </style>
+</head>
+<body>
+ 
+    <div class="layui-container">
+        <!-- 导航 -->
+        <ul class="layui-nav layui-my-nav-container" lay-filter="">
+            <li class="layui-nav-item layui-my-nav-item-float"><a href="javascript:;" id="login_out">退出</a></li>
+            <li class="layui-my-nav-user-name layui-my-nav-item-float"><span id="user_name">administrator</span></li>
+            <li class="layui-nav-item layui-this layui-my-nav-item-float"><a href="/diagnosis">辅助诊疗</a></li>
+            <li class="layui-nav-item layui-my-nav-item-float"><a href="/baseinfo">基本信息</a></li>
+            <li class="layui-my-nav-logo">
+                <img src="../static/images/logo.png" alt="" style="height: 40px; width: 40px;">
+            </li>
+            <li class="layui-my-nav-sys-name">
+                <span style="font-size: 24px;">辅助医疗系统</span>
+            </li>
+        </ul>
+        <!-- 页面主体 -->
+        <div class="layui-my-body">
+            <div class="layui-row layui-my-box" style="margin-top: 40px;">
+                <fieldset class="layui-elem-field layui-field-title">
+                    <legend>基本信息填写</legend>
+                    <div class="layui-field-box">
+                        <form class="layui-form" action="" lay-filter="baseInfoForm">
+                            <div class="layui-form-item layui-my-inline  layui-col-md-offset1">
+                                <!-- 姓名 -->
+                                <div class="layui-inline layui-my-inline">
+                                    <label class="layui-form-label " for="p_name">姓名</label>
+                                    <div class="layui-input-inline layui-my-inline">
+                                        <input type="text" name="name" required lay-verify="required" placeholder="请输入姓名" autocomplete="off"
+                                        class="layui-input" id="p_name">
+                                    </div>
+                                </div>
+                                <!-- 年龄 -->
+                                <div class="layui-inline layui-my-inline">
+                                    <label class="layui-form-label layui-my-label-width" for="age">年龄</label>
+                                    <div class="layui-input-inline layui-my-inline">
+                                        <input type="text" name="age" required lay-verify="required|number" placeholder="请输入年龄" autocomplete="off"
+                                        class="layui-input" id="age">
+                                    </div>
+                                </div>
+                                <!-- 身份证号 -->
+                                <div class="layui-inline layui-my-inline">
+                                    <label class="layui-form-label layui-my-label-width" for="p_IDnumber">身份证号</label>
+                                    <div class="layui-input-inline layui-my-inline">
+                                        <input type="text" name="IDnumber" required lay-verify="required|identity" placeholder="请输入身份证号" autocomplete="off"
+                                        class="layui-input" id="p_IDnumber">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-form-item layui-col-md-offset1">
+                              <label class="layui-form-label">性别</label>
+                              <div class="layui-input-block">
+                                <input type="radio" name="gender" value="male" title="男">
+                                <input type="radio" name="gender" value="famale" title="女" checked>
+                              </div>
+                            </div>
+                            <div class="layui-form-item layui-form-text layui-col-md9 layui-col-md-offset1">
+                              <label class="layui-form-label" for="clinical_feature">临床表现</label>
+                              <div class="layui-input-block">
+                                <textarea name="clinical_feature" placeholder="请输入内容" class="layui-textarea" id="clinical_feature"></textarea>
+                              </div>
+                            </div>
+                            <div class="layui-form-item layui-col-md-offset1">
+                              <div class="layui-input-block">
+                                <!-- style="display: none;" -->
+                                <button class="layui-btn" lay-submit lay-filter="baseInfo" style="display: none;" id="baseSubBtn">立即提交</button>
+                                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                              </div>
+                            </div>
+                          </form>
+                    </div>
+                </fieldset>
+            </div>
+    
+            <div class="layui-row layui-my-box">
+                <fieldset class="layui-elem-field layui-field-title">
+                    <legend>上传诊断数据</legend>
+                    <div class="layui-upload">
+                        <!-- 1.创建文件上传的组件 -->
+                        <button id="uploadBtn" class="layui-btn">选择文件</button>
+                        <button id="uploadBtn2" class="layui-btn layui-btn-disabled">开始上传</button>
+                        <!-- <img alt="" src="" id="uploadImg"> -->
+                        <table class="layui-table" lay-size="sm" style="width: 90%;margin: 12px auto;" id="my-table-box">
+                        </table>
+                    </div>
+                    <div class="layui-row">
+                        <div class="layui-col-md4 layui-col-md-offset10">
+                            <a href="/reference" style="color:dodgerblue;">指标重要程度参考表</a>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+    
+            <div class="layui-row layui-my-box">
+                <fieldset class="layui-elem-field layui-field-title">
+                    <legend>患病风险预测</legend>
+                    <div>
+                        
+                    </div>
+                    <div class="layui-row">
+                        <button type="button" class="layui-btn layui-btn-disabled" id="predictBtn" disabled>开始预测</button>
+                        <button type="button" class="layui-btn layui-btn-normal layui-btn-disabled" id="saveBtn" disabled>保存患者数据</button>
+                    </div>
+                    <div class="layui-row">
+                        <div class="layui-col-md6 layui-col-md-offset3" id="radar-container" style="height: 500px;"></div>
+                    </div>
+                </fieldset>
+            </div>
+    
+    
+        </div>
+    
+    
+    </div>
+ 
+<script src="/static/layui/layui.js"></script>
+<script src="/static/js/xlsx.full.min.js"></script>
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/common.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+<script>
+    token = window.localStorage.getItem('u_token');
+    username = window.localStorage.getItem('u_user');
+    
+    //注意：导航 依赖 element 模块，否则无法进行功能性操作
+    layui.use(['element', 'form', 'layer', 'jquery', 'upload'], function () {
+        var element = layui.element;
+        var form = layui.form;
+        var layer = layui.layer;
+        var $ = layui.jquery;
+        var upload = layui.upload;
+        // 保存基本信息数据
+        var baseInfoParams;
+        // 信号-诊断数据已上传 1: 已上传
+        var fileUploadedSignal = 0
+        //2.初始化文件上传组件
+        upload.render({
+            elem: "#uploadBtn", //绑定上传组件容器
+            url: "http://192.168.1.10:8000/v1/diagnosis/uploads",//文件上传的地址
+            // 将 token 存入请求头
+            headers: {"Authorization": token},
+            data: { "username": username, "token": token},//除文件数据以外的额外数据(当前用户信息)
+            accept: "file",// 允许上传的文件的类型
+            // acceptMime: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel,.csv",//文件选择框时 文件格式
+            // exts: 'csv|xlsx|xls',// 设置选择的文件的后缀
+            acceptMime: ".csv",//文件选择框时 文件格式
+            exts: 'csv',// 设置选择的文件的后缀
+            auto: false,// 不自动提交
+            bindAction: "#uploadBtn2",//指定触发提交的按钮
+            field: username,//文件上传中file的name值
+            choose: function (obj) {
+                // 选中文件之后, 将开始上传按钮置为可用
+                $("#uploadBtn2").attr("class", "layui-btn");  //开始上传
+                $("#uploadBtn2").attr("disabled", false);
+                // 预览
+                obj.preview(function (index, file, result) {
+                    var f = file;
+                    var wb; //读取完成的数据
+                    var aa = [];
+                    var rABS = false; //是否将文件读取为二进制字符串
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        var data = e.target.result;
+                        if (rABS) {
+                            wb = XLSX.read(btoa(fixdata(data)), { //手动转化
+                                type: 'base64'
+                            });
+                        } else {
+                            wb = XLSX.read(data, {
+                                type: 'binary'
+                            });
+                        }
+                        //wb.SheetNames[0]是获取Sheets中第一个Sheet的名字
+                        //wb.Sheets[Sheet名]获取第一个Sheet的数据
+                        aa = JSON.stringify(XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]));
+                        var u = eval('(' + aa + ')');
+                        var data = u[0]
+                        var keys = Object.keys(u[0])
+                        // 数据最大长度为 50
+                        if (keys.length > 50) {
+                          alert("数据长度超过上限!")
+                          return
+                        }
+                        var table_html = "<colgroup><col><col><col><col><col><col><col><col><col><col></colgroup><thead><tr>"
+                        var th_item = ''
+                        var td_item = ''
+                        for (i=0; i<keys.length; i++) {
+                            // 渲染table元素
+                            if ((i+1)%10==0){
+                                // console.log(i)
+                                if (i==keys.length-1){
+                                    // 遍历到最后一个元素
+                                    table_html += th_item
+                                    table_html += "</tr></thead><tbody><tr>"
+                                    table_html += td_item
+                                    table_html += "</tr></tbody>"
+                                    break
+                                }else{
+                                    table_html += th_item
+                                    table_html += "</tr></thead><tbody><tr>"
+                                    table_html += td_item
+                                    table_html += "</tr></tbody><thead><tr>"
+                                    th_item = ''
+                                    td_item = ''
+                                    continue
+                                }
+                            }
+                            th_item += "<th>"+keys[i]+"</th>"
+                            td_item += "<td>"+data[keys[i]]+"</td>"
+                            if (i==keys.length-1) {
+                                table_html += th_item
+                                table_html += "</tr></thead><tbody><tr>"
+                                table_html += td_item
+                                table_html += "</tr></tbody>"
+                            }
+                        }
+                        document.getElementById("my-table-box").innerHTML = table_html
+                    };
+                    if (rABS) {
+                        reader.readAsArrayBuffer(f);
+                    } else {
+                        reader.readAsBinaryString(f);
+                    }
+                });
+            },
+            before: function (request) {//在执行上传前调用
+                // 将相关按钮置为不可用状态
+                $("#uploadBtn").attr("class", "layui-btn layui-btn-disabled");   //选择文件
+                $("#uploadBtn").attr("disabled", true);
+                $("#uploadBtn2").attr("class", "layui-btn layui-btn-disabled");  //开始上传
+                $("#uploadBtn2").attr("disabled", true);
+                layer.load(); //上传loading
+            },
+            done: function (res, index, upload) { //上传完成调用
+                layer.closeAll('loading'); //关闭loading
+                // console.log(res); // 返回的JSON数据
+                if (200 == res.code) { // 返回成功信息
+                    // 将相关按钮恢复可用状态
+                    $("#uploadBtn").attr("class", "layui-btn");   //选择文件
+                    $("#uploadBtn").attr("disabled", false);
+                    $("#uploadBtn2").attr("class", "layui-btn");  //开始上传
+                    $("#uploadBtn2").attr("disabled", false);
+                    $("#predictBtn").attr("class", "layui-btn");  //开始预测
+                    $("#predictBtn").attr("disabled", false);
+                    // 将上传信号置为 1
+                    fileUploadedSignal = 1;
+                    layer.msg("上传成功!");
+                } else {
+                    alert(res.error)
+                }
+            },
+            error: function (index, upload) {//上传失败
+                layer.closeAll('loading'); //关闭loading
+                // console.log("======error======");
+                // 将相关按钮恢复可用状态
+                $("#uploadBtn").attr("class", "layui-btn");   //选择文件
+                $("#uploadBtn").attr("disabled", false);
+                $("#uploadBtn2").attr("class", "layui-btn");  //开始上传
+                $("#uploadBtn2").attr("disabled", false);
+            }
+        });
+        // --------------------- 监听基本信息提交 -------------------------
+        // 获取表单元素的值 注: 只有表单的所有验证全部通过之后才会触发该回调函数
+        form.on('submit(baseInfo)', function (data) {
+            console.log("触发监听事件")
+            baseInfoParams = data.field
+            return false;  // 阻止表单跳转
+        });
+        // --------------------- 监听"开始预测"按钮 -------------------------
+        $("#predictBtn").click(function () {
+            // console.log("开始预测按钮点击事件");
+            // 验证诊断数据是否已上传
+            if (fileUploadedSignal != 1) {
+                layer.open({
+                    content: '请先上传诊断数据!'
+                })
+            } else {
+                // 向服务端发送预测指令, 收到200后，重新渲染雷达图
+                $.ajax({
+                    type: "get",
+                    url: "http://192.168.1.10:8000/v1/diagnosis/calculation",
+                    beforeSend: function (request) {
+                        // 将token添加到请求头
+                        request.setRequestHeader("Authorization", token);
+                    },
+                    success: function (result) {
+                        console.log("result:", result)
+
+                        if (200 == result.code) {
+                            // 将保存按钮恢复可用状态
+                            $("#saveBtn").attr("class", "layui-btn layui-btn-normal");  //保存患者数据
+                            $("#saveBtn").attr("disabled", false);
+                            // 渲染雷达图
+                            show_radar(result.data);
+                        } else {
+                            alert(result.error)
+                        }
+                    }
+                })
+            }
+        })
+        // --------------------- 监听"保存患者数据"按钮 -------------------------
+        $("#saveBtn").click(function () {
+            console.log("保存患者数据按钮点击事件");
+            // 触发表单提交按钮, 程序会自动验证基本信息是否合法, 如果合法则获取基本信息数据
+            $("#baseSubBtn").trigger('click');
+            // 如果没有获取到表单数据, 则表示表单验证不成功, 阻止程序继续执行
+            if (!baseInfoParams){
+                alert("请先填写基本信息!")
+                return false;
+            };
+            // 验证诊断数据是否已上传
+            if (fileUploadedSignal != 1) {
+                layer.open({
+                    content: '请先上传诊断数据!'
+                });
+                return false;
+            } else {
+                // 验证是否已有患病风险预测数据
+                radar_data = option.series[0].data[0].value
+                if (!radar_data) {
+                    layer.open({
+                        content: '您还没有预测患病风险!'
+                    });
+                    return false;
+                } else {
+                    // 向服务端发送基本信息数据和诊断数据、预测数据
+                    var saved_params = {
+                        "info": baseInfoParams,
+                        "complications_risk": radar_data
+                    }
+                    $.ajax({
+                        url: 'http://192.168.1.10:8000/v1/diagnosis/save',
+                        type: 'post',
+                        data: JSON.stringify(saved_params),
+                        dataType: 'json',
+                        // 是否用异步
+                        async: true,
+                        success: function (result) {
+                            // 下面代码段为测试成功返回后用的,后续需要删除
+                            // result = {
+                            //     'code': 200,
+                            //     'data': 'success'
+                            // };
+                            // 收到200后，提示已保存成功
+                            if (200 == result.code) {
+                                layer.open({
+                                    content: '数据已成功保存!'
+                                    // ,end: function () {
+                                    //     // console.log("弹窗层被销毁!");
+                                    //     self.location.href = "/diagnosis";
+                                    // }
+                                });
+                            } else {
+                                alert(result.error)
+                            };
+                        },
+                        error: function () {
+                            alert('Server is busy!!');
+                            // 将保存按钮置为可用
+                            $("#saveBtn").attr("class", "layui-btn layui-btn-normal");  //保存患者数据
+                            $("#saveBtn").attr("disabled", false);
+                        },
+                        beforeSend: function (request) {
+                            // 添加 token
+                            request.setRequestHeader("Authorization", token);
+                            // 将保存按钮置为不可用
+                            $("#saveBtn").attr("class", "layui-btn layui-btn-normal layui-btn-disabled");  //保存患者数据
+                            $("#saveBtn").attr("disabled", true);
+                        }
+                    })
+                    // layer.msg(baseInfoParams);
+                    // layer.msg(JSON.stringify(baseInfoParams));
+                }
+            }
+        })
+        // 监听导航菜单的点击
+        // element.on('nav(filter)', function (elem) {
+        //     console.log(elem); //得到当前点击的DOM对象
+        //     console.log("nav click test")
+        // });
+
+    });
+    
+    // 执行自己编写的函数
+    $(function () {
+        // 显示雷达图
+        show_radar();
+    })
+
+
+
+    // 患病风险预测雷达图
+    function show_radar(radar_val = [NaN, NaN, NaN, NaN]) {
+        var dom = document.getElementById("radar-container");
+        var myChart = echarts.init(dom);
+        var app = {};
+        option = null;
+        option = {
+            title: {
+                // text: '基础雷达图'
+                text: ''
+            },
+            tooltip: {},
+            legend: {
+                data: ['患病风险预测']
+            },
+            radar: {
+                // shape: 'circle',
+                name: {
+                    textStyle: {
+                        color: '#fff',
+                        backgroundColor: '#999',
+                        borderRadius: 3,
+                        padding: [3, 5]
+                    }
+                },
+                indicator: [
+                    { name: '并发症1', max: 1 },
+                    { name: '并发症2', max: 1 },
+                    { name: '并发症3', max: 1 },
+                    { name: '并发症4', max: 1 }
+                ]
+            },
+            series: [{
+                name: '发病风险',
+                type: 'radar',
+                // areaStyle: {normal: {}},
+                data: [
+                    {
+                        value: radar_val,
+                        name: '发病风险'
+                    }
+                ]
+            }]
+        };
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+        }
+    }
+
+</script>
+</body>
+</html>
