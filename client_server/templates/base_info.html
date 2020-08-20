@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>基本信息</title>
+  <link rel="stylesheet" href="../static/layui/css/layui.css">
+  <style>
+    .layui-my-nav-item-float {
+      float: right;
+    }
+
+    .layui-my-nav-container {
+      position: absolute;
+      width: inherit;
+    }
+
+    .layui-my-nav-user-name {
+      position: relative;
+      /* display: inline-block; */
+      *display: inline;
+      *zoom: 1;
+      vertical-align: middle;
+      line-height: 60px;
+      padding: 0 20px;
+      margin-left: 10px;
+      float: right;
+      color: rgba(255, 255, 255, .7);
+    }
+
+    .layui-my-nav-sys-name,
+    .layui-my-nav-logo {
+      position: relative;
+      /* display: inline-block; */
+      *display: inline;
+      *zoom: 1;
+      vertical-align: middle;
+      line-height: 60px;
+      margin: 5px, 0;
+      float: left;
+      padding-left: 10px
+    }
+
+    .layui-my-body {
+      position: absolute;
+      top: 60px;
+      /* bottom: 44px; */
+      z-index: 998;
+      width: 100%;
+      overflow-y: auto;
+      box-sizing: border-box;
+      overflow: hidden;
+
+      /* 以下待删除 */
+      /* background-color:azure; */
+      /* height: 500px; */
+    }
+
+    .layui-my-box {
+      margin-top: 20px;
+      padding-bottom: 10px;
+    }
+
+    .layui-my-inline {
+      margin-bottom: 0px;
+    }
+
+    #layui-my-age-input {
+      width: 135px;
+    }
+
+    .layui-my-label-width {
+      width: auto;
+    }
+
+    .layui-my-input-bg {
+      background-color: ghostwhite;
+    }
+
+    .b {
+      background-color: darkorange;
+    }
+
+    .b1 {
+      background-color: floralwhite;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="layui-container">
+    <!-- 导航 -->
+    <ul class="layui-nav layui-my-nav-container" lay-filter="">
+      <li class="layui-nav-item layui-my-nav-item-float"><a href="javascript:;" id="login_out">退出</a></li>
+      <li class="layui-my-nav-user-name layui-my-nav-item-float"><span id="user_name">administrator</span></li>
+      <li class="layui-nav-item layui-my-nav-item-float"><a href="/diagnosis">辅助诊疗</a></li>
+      <li class="layui-nav-item layui-this layui-my-nav-item-float"><a href="/baseinfo">基本信息</a></li>
+      <li class="layui-my-nav-logo">
+        <img src="../static/images/logo.png" alt="" style="height: 40px; width: 40px;">
+      </li>
+      <li class="layui-my-nav-sys-name">
+        <span style="font-size: 24px;">辅助医疗系统</span>
+      </li>
+    </ul>
+    <!-- 页面主体 -->
+    <div class="layui-my-body">
+      <!-- 查询模块 -->
+      <div class="layui-row layui-my-box">
+        <div class="layui-row">
+          <div class="layui-field-box">
+            <form class="layui-form" action="">
+              <div class="layui-form-item layui-my-inline" style="padding-top: 66px;margin-left: 355px;">
+                <!-- 姓名 -->
+                <div class="layui-inline layui-my-inline">
+                  <label class="layui-form-label ">姓名</label>
+                  <div class="layui-input-inline layui-my-inline">
+                    <input type="text" name="name" required lay-verify="required" placeholder="请输入姓名" autocomplete="off"
+                      class="layui-input" id="query-name">
+                  </div>
+                </div>
+                <!-- 身份证号 -->
+                <div class="layui-inline layui-my-inline">
+                  <label class="layui-form-label layui-my-label-width">身份证号</label>
+                  <div class="layui-input-inline layui-my-inline">
+                    <input type="text" name="IDnumber" required lay-verify="required|identity" placeholder="请输入身份证号"
+                      autocomplete="off" class="layui-input" id="query-IDnumber">
+                  </div>
+                </div>
+                <!-- 查询按钮 -->
+                <div class="layui-inline layui-my-inline">
+                  <div class="layui-input-inline layui-my-inline" style="width: auto;">
+                    <button class="layui-btn" lay-submit lay-filter="queryInfo" id="queryInfo">查询</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <!-- 基本信息 -->
+      <div class="layui-row layui-my-box">
+        <fieldset class="layui-elem-field layui-field-title">
+          <legend>基本信息</legend>
+          <div class="layui-field-box">
+            <form class="layui-form" action="">
+              <div class="layui-form-item layui-col-md-offset1">
+                <!-- 姓名 -->
+                <div class="layui-inline layui-my-inline">
+                  <label class="layui-form-label ">姓名</label>
+                  <div class="layui-input-inline layui-my-inline">
+                    <input type="text" name="p_name" required lay-verify="required" autocomplete="off"
+                      class="layui-input layui-my-input-bg" disabled id="p_name">
+                  </div>
+                </div>
+                <!-- 年龄 -->
+                <div class="layui-inline layui-my-inline">
+                  <label class="layui-form-label layui-my-label-width">年龄</label>
+                  <div class="layui-input-inline layui-my-inline">
+                    <input type="text" name="age" required lay-verify="required|number" autocomplete="off"
+                      class="layui-input layui-my-input-bg" disabled id="age">
+                  </div>
+                </div>
+                <!-- 身份证号 -->
+                <div class="layui-inline layui-my-inline">
+                  <label class="layui-form-label layui-my-label-width">身份证号</label>
+                  <div class="layui-input-inline layui-my-inline">
+                    <input type="text" name="p_IDnumber" required lay-verify="required|identity" autocomplete="off"
+                      class="layui-input layui-my-input-bg" disabled id="p_IDnumber">
+                  </div>
+                </div>
+              </div>
+              <div class="layui-form-item layui-col-md-offset1">
+                <div class="layui-inline layui-my-inline">
+                  <label class="layui-form-label ">性别</label>
+                  <div class="layui-input-inline layui-my-inline">
+                    <input type="text" name="gender" required lay-verify="required" autocomplete="off"
+                      class="layui-input layui-my-input-bg" disabled id="gender">
+                  </div>
+                </div>
+              </div>
+              <div class="layui-form-item layui-form-text layui-col-md9 layui-col-md-offset1">
+                <label class="layui-form-label">临床表现</label>
+                <div class="layui-input-block">
+                  <textarea name="clinical_feature" class="layui-textarea layui-my-input-bg" disabled id="clinical_feature"></textarea>
+                </div>
+              </div>
+            </form>
+          </div>
+        </fieldset>
+      </div>
+
+      <!-- 病症分析 -->
+      <div class="layui-row layui-my-box">
+        <fieldset class="layui-elem-field layui-field-title">
+          <legend>病症分析</legend>
+          <div class="layui-field-box">
+            <form class="layui-form" action="">
+              <div class="layui-form-item layui-col-md-offset1">
+                <!-- 疑似患病 -->
+                <div class="layui-inline layui-my-inline" id="suspected_illness">
+                  <label class="layui-form-label ">疑似患病</label>
+                  <div class="layui-input-inline layui-my-inline">
+                    <input type="text" required lay-verify="required" autocomplete="off"
+                      class="layui-input layui-my-input-bg" disabled>
+                  </div>
+                  <div class="layui-input-inline layui-my-inline">
+                    <input type="text" name="title" required lay-verify="required" autocomplete="off"
+                      class="layui-input layui-my-input-bg" disabled>
+                  </div>
+                  <div class="layui-input-inline layui-my-inline">
+                    <input type="text" name="title" required lay-verify="required" autocomplete="off"
+                      class="layui-input layui-my-input-bg" disabled>
+                  </div>
+                  <div class="layui-input-inline layui-my-inline">
+                    <input type="text" name="title" required lay-verify="required" autocomplete="off"
+                      class="layui-input layui-my-input-bg" disabled>
+                  </div>
+                </div>
+              </div>
+              <div class="layui-form-item layui-col-md-offset1">
+                <!-- 药物治疗推荐 -->
+                <div class="layui-inline layui-my-inline" id="drug_reco">
+                  <label class="layui-form-label " style="width: 85px;padding-left: 10px;">药物治疗推荐</label>
+                  <div class="layui-input-inline layui-my-inline">
+                    <input type="text" required lay-verify="required" autocomplete="off"
+                      class="layui-input layui-my-input-bg" disabled>
+                  </div>
+                  <div class="layui-input-inline layui-my-inline">
+                    <input type="text" name="title" required lay-verify="required" autocomplete="off"
+                      class="layui-input layui-my-input-bg" disabled>
+                  </div>
+                  <div class="layui-input-inline layui-my-inline">
+                    <input type="text" name="title" required lay-verify="required" autocomplete="off"
+                      class="layui-input layui-my-input-bg" disabled>
+                  </div>
+                  <div class="layui-input-inline layui-my-inline">
+                    <input type="text" name="title" required lay-verify="required" autocomplete="off"
+                      class="layui-input layui-my-input-bg" disabled>
+                  </div>
+                </div>
+              </div>
+              <div class="layui-form-item layui-col-md-offset1">
+                <!-- 饮食注意事项 -->
+                <div class="layui-inline layui-my-inline" id="food_taboo">
+                  <label class="layui-form-label " style="width: 85px;padding-left: 10px;">饮食注意事项</label>
+                  <div class="layui-input-inline layui-my-inline">
+                    <input type="text" required lay-verify="required" autocomplete="off"
+                      class="layui-input layui-my-input-bg" disabled>
+                  </div>
+                  <div class="layui-input-inline layui-my-inline">
+                    <input type="text" name="title" required lay-verify="required" autocomplete="off"
+                      class="layui-input layui-my-input-bg" disabled>
+                  </div>
+                  <div class="layui-input-inline layui-my-inline">
+                    <input type="text" name="title" required lay-verify="required" autocomplete="off"
+                      class="layui-input layui-my-input-bg" disabled>
+                  </div>
+                  <div class="layui-input-inline layui-my-inline">
+                    <input type="text" name="title" required lay-verify="required" autocomplete="off"
+                      class="layui-input layui-my-input-bg" disabled>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="layui-row layui-my-box">
+        <fieldset class="layui-elem-field layui-field-title">
+          <legend>并发症风险</legend>
+          <div class="layui-row">
+          </div>
+          <div class="layui-row">
+            <div class="layui-col-md6 layui-col-md-offset3" id="radar-container" style="height: 500px;"></div>
+          </div>
+        </fieldset>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="/static/js/jquery.min.js"></script>
+  <script src="/static/js/common.js"></script>
+  <script src="/static/layui/layui.js"></script>
+  <script src="/static/js/xlsx.full.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+  <script>
+
+    token = window.localStorage.getItem('u_token');
+    username = window.localStorage.getItem('u_user');
+
+    // 执行自己编写的函数
+    $(function () {
+      // 显示雷达图
+      show_radar();
+    });
+
+    //注意：导航 依赖 element 模块，否则无法进行功能性操作
+    layui.use(['element', 'form', 'layer', 'jquery', 'upload'], function () {
+      var element = layui.element;
+      var form = layui.form;
+      var layer = layui.layer;
+      var $ = layui.jquery;
+      var upload = layui.upload;
+      //监听提交
+      form.on('submit(queryInfo)', function (data) {
+        get_query_info();
+      });
+      // 监听导航菜单的点击
+      element.on('nav(filter)', function (elem) {
+        console.log(elem); //得到当前点击的DOM对象
+      });
+
+    });
+
+
+    // 跨域交互，查询基本信息
+    function get_query_info() {
+      loginExamine();
+      // 获取查询变量
+      var params = {
+        'name': $("#query-name").val(),
+        'IDnumber': $("#query-IDnumber").val()
+      }
+      $.ajax({
+        url: 'http://192.168.1.10:8000/v1/information/query',
+        type: 'post',
+        data: JSON.stringify(params),
+        dataType: 'json',
+        // 是否用异步
+        async: true,
+        beforeSend: function(request) {
+          request.setRequestHeader("Authorization", token);
+          // 设置按钮不可用
+          $('#queryInfo').attr({ disabled: 'disabled' });
+        },
+        success: function (result) {
+          $('#queryInfo').removeAttr('disabled');
+          if (200 == result.code) {
+            // -------------------------- 渲染基本信息模块 ----------------------------------
+            $("#p_name").val(result.data.info.name)
+            $("#age").val(result.data.info.age)
+            $("#p_IDnumber").val(result.data.info.IDnumber)
+            $("#gender").val(result.data.info.gender)
+            $("#clinical_feature").val(result.data.info.clinical_feature)
+            // -------------------------- 渲染病症分析模块 ----------------------------------
+            // 疑似患病
+            var suspected_illness = result.data.analysis.suspected_illness
+            var suspected_illness_html = '<label class="layui-form-label ">疑似患病</label>'
+            for (i = 0, len = suspected_illness.length; i < len; i++) {
+              suspected_illness_html += '<div class="layui-input-inline layui-my-inline">'
+              suspected_illness_html += '<input type="text" required lay-verify="required" autocomplete="off" class="layui-input layui-my-input-bg" disabled value="'
+              suspected_illness_html += suspected_illness[i]
+              suspected_illness_html += '"></div>'
+            }
+            $("#suspected_illness").html(suspected_illness_html)
+            // 药物治疗推荐
+            var drug_reco = result.data.analysis.drug_reco
+            var drug_reco_html = '<label class="layui-form-label " style="width: 85px;padding-left: 10px;">药物治疗推荐</label>'
+            for (i = 0, len = drug_reco.length; i < len; i++) {
+              // 上限为 4
+              if (i > 4) {
+                break
+              }
+              drug_reco_html += '<div class="layui-input-inline layui-my-inline">'
+              drug_reco_html += '<input type="text" required lay-verify="required" autocomplete="off" class="layui-input layui-my-input-bg" disabled value="'
+              drug_reco_html += drug_reco[i]
+              drug_reco_html += '"></div>'
+            }
+            $("#drug_reco").html(drug_reco_html)
+            // 饮食注意事项
+            var food_taboo = result.data.analysis.food_taboo
+            food_taboo_html = '<label class="layui-form-label " style="width: 85px;padding-left: 10px;">饮食注意事项</label>'
+            for (i = 0, len = food_taboo.length; i < len; i++) {
+              // 上限为 4
+              if (i > 4) {
+                break
+              }
+              food_taboo_html += '<div class="layui-input-inline layui-my-inline">'
+              food_taboo_html += '<input type="text" required lay-verify="required" autocomplete="off" class="layui-input layui-my-input-bg" disabled value="'
+              food_taboo_html += food_taboo[i]
+              food_taboo_html += '"></div>'
+            }
+            $("#food_taboo").html(food_taboo_html)
+            // -------------------------- 渲染患病风险雷达图 ----------------------------------
+            show_radar(result.data.complications_risk)
+          } else {
+            alert(result.error)
+          }
+        },
+        error: function () {
+          alert('Server is busy!!');
+          $('#queryInfo').removeAttr('disabled');
+        },
+      });
+    }
+
+
+    // 患病风险预测雷达图
+    function show_radar(radar_val=[0,0,0,0]) {
+      var dom = document.getElementById("radar-container");
+      var myChart = echarts.init(dom);
+      var app = {};
+      option = null;
+      option = {
+        title: {
+          // text: '基础雷达图'
+          text: ''
+        },
+        tooltip: {},
+        legend: {
+          data: ['患病风险预测']
+        },
+        radar: {
+          // shape: 'circle',
+          name: {
+            textStyle: {
+              color: '#fff',
+              backgroundColor: '#999',
+              borderRadius: 3,
+              padding: [3, 5]
+            }
+          },
+          indicator: [
+            { name: '并发症1', max: 1 },
+            { name: '并发症2', max: 1 },
+            { name: '并发症3', max: 1 },
+            { name: '并发症4', max: 1 }
+          ]
+        },
+        series: [{
+          name: '发病风险',
+          type: 'radar',
+          // areaStyle: {normal: {}},
+          data: [
+            {
+              value: radar_val,
+              name: '发病风险'
+            }
+          ]
+        }]
+      };
+      if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+      }
+    }
+
+  </script>
+</body>
+
+</html>
